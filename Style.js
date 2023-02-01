@@ -1,12 +1,6 @@
 
-let steps = document.querySelectorAll("#divBox");
-let NextBtn = document.querySelector("#Next");
-let BackBtn = document.querySelector("#Back"); 
-let checkboxS2 = document.querySelector("#YoMo");
-let PlaneMore = document.querySelectorAll("#inputs-S2 .More");
-let IntInfo = document.querySelectorAll(".infos");
-let SideBar = document.querySelectorAll(".pointer");
-let [FormCheck,counter] = [0,0];
+
+
 
 // logic 
 let changeBtn = document.querySelector(".plane-sum").firstElementChild.lastElementChild;
@@ -89,103 +83,19 @@ const AddOnsPerYo = [
 
 // swipe + (next / back) buttons + html 
 
-for (let i = 0; i < steps.length; i++) {
-    const step = steps[i];
-    step.style.left = `${i * 100}%`
-}
 
 
 changeBtn.addEventListener('click',() =>{
     counter = 1;
-    [planPrice1,planPrice2] = [0,0];
-    [planDuration,planeType] = '';
     Realsteps();
 });
 
-NextBtn.addEventListener('click',() =>{
 
-    if(checkInfoForm() != 3){
-        checkInfoForm();
-    }else{
-        counter++;
-        Realsteps();
-    }
-
-
-    
-});
-
-BackBtn.addEventListener('click',() =>{
-    counter--;
-    Realsteps();
-});
 
 
 // check the form end
 
 
-function Realsteps(){
-    switch (counter) {
-        case steps.length - 1:
-            BackBtn.style.visibility = "hidden";
-            NextBtn.style.visibility = "hidden";
-            break;
-        case steps.length - 2:
-            NextBtn.textContent = "Confirm";
-            S3inS4();
-            break;
-        case 0:
-            BackBtn.style.visibility = "hidden";
-            break;
-    
-        default:
-            BackBtn.style.visibility = "visible";
-            NextBtn.textContent = "Next Step";
-            break;
-    }
-
-    // if (checkboxS2.checked) {
-    //     YoTemp();
-    //     S3inS4();
-    //     planDuration = 'Yearly';
-    // } else {
-    //     MoTemp();
-    //     S3inS4();
-    //     planDuration = 'Monthly';
-    // }
-
-    // if(counter === steps.length - 1){
-    //     BackBtn.style.visibility = "hidden";
-    //     NextBtn.style.visibility = "hidden";
-    // }else if(counter === steps.length - 2){
-    //     NextBtn.textContent = "Confirm";
-    // }else if(counter === 0){
-    //     BackBtn.style.visibility = "hidden";
-    // }else{
-    //     BackBtn.style.visibility = "visible";
-    //     NextBtn.textContent = "Next Step";
-    // }
-    steps.forEach((step) => {
-        step.style.transform = `translateX(-${counter * 100}%)`; 
-    });
-
-    // sidebar active 
-
-    for (let i = 0; i < SideBar.length; i++) {
-        const bar = SideBar[i];
-        if(i === counter){
-            bar.style.backgroundColor = 'white';
-            bar.style.border = '2px solid var(--White)';
-            bar.style.color = 'var(--MarineBlue)';
-        }else{
-            bar.style.backgroundColor = 'transparent';
-            bar.style.border = '1px solid var(--White)';
-            bar.style.color = 'var(--White)';
-        }
-    }
-    
-
-}
 
 
 // swipe + (next / back) buttons end
@@ -225,28 +135,9 @@ function MoTemp(){
 
 }
 
+
 // Yo/Mo of S2 end
 
-// check the form 
-
-function checkInfoForm(){
-    FormCheck = 0;
-        IntInfo.forEach((info) =>{
-            
-            if(info.value == ''){
-                info.previousElementSibling.lastElementChild.style.visibility = "visible";
-                info.style.borderColor = "var(--StrawberryRed)";
-                FormCheck--;
-            }else{
-                info.previousElementSibling.lastElementChild.style.visibility = "hidden";
-                info.style.borderColor = "var(--LightGray)";
-                FormCheck++;
-            }
-        });
-    return FormCheck;
-}
-
-// check the form end
 
 //output
 function outPutS4() {
@@ -346,3 +237,28 @@ window.addEventListener("input",() =>{
 
 
 
+
+
+
+
+// if (checkboxS2.checked) {
+    //     YoTemp();
+    //     S3inS4();
+    //     planDuration = 'Yearly';
+    // } else {
+    //     MoTemp();
+    //     S3inS4();
+    //     planDuration = 'Monthly';
+    // }
+
+    // if(counter === steps.length - 1){
+    //     BackBtn.style.visibility = "hidden";
+    //     NextBtn.style.visibility = "hidden";
+    // }else if(counter === steps.length - 2){
+    //     NextBtn.textContent = "Confirm";
+    // }else if(counter === 0){
+    //     BackBtn.style.visibility = "hidden";
+    // }else{
+    //     BackBtn.style.visibility = "visible";
+    //     NextBtn.textContent = "Next Step";
+    // }
