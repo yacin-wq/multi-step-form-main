@@ -83,23 +83,14 @@ const AddOnsPerYo = [
 
 // swipe + (next / back) buttons + html 
 
-
-
 changeBtn.addEventListener('click',() =>{
     counter = 1;
     Realsteps();
 });
 
-
-
-
 // check the form end
 
-
-
-
 // swipe + (next / back) buttons end
-
 
 // Yo/Mo of S2
 
@@ -135,14 +126,11 @@ function MoTemp(){
 
 }
 
-
 // Yo/Mo of S2 end
 
-
 //output
-function outPutS4() {
 
-    
+function outPutS4() {    
     // Yo/Mo Swipe checkBox
 
     for (let i = 0; i < PlaneMore.length; i++) {
@@ -189,8 +177,8 @@ function outPutS4() {
     total.innerHTML = `<h5>Total (per ${planDuration.replace('ly','')})</h5>
                         <h4>${totalprice}/${planDuration.slice(0,1).toLocaleLowerCase()}o</h4>`;
 }
-//output end
 
+//output end
 
 function S3inS4(){
     // s3 checkboxes in s4
@@ -223,9 +211,6 @@ function S3inS4(){
     }
     // s3 checkboxes in s4 end
 }
-
-
-
 
 // input changes 
 
