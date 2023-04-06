@@ -67,6 +67,20 @@ const AddOnsPerYo = [
     },
 ];
 
+let User = {
+    name: 'temp',
+    email: 'temp@gmail.com',
+    Phone_Number: '0123456789',
+    plane:{
+        name: 'Arcade',
+        price: 9,
+        Duration: 'Monthly'
+    },
+    servises:{
+        
+    },
+}
+
 
 
 // Style and content 
@@ -83,65 +97,66 @@ let SideBar = document.querySelectorAll(".pointer");
 let checkbox_S2 = document.querySelector("#YoMo");
 
 
-let [FormCheck,counter,S2_Plan_array,S3_Plan_array,state,d] = [0,0,month,AddOnsPerMo,'none','m'];
+let [FormCheck,counter,S2_Plan_array,S3_Plan_array,state,d] = [0,0,month,AddOnsPerMo,'none','Monthly'];
+
+window.addEventListener("change", function() {
+    OutSHow(User);
+});
 
 
+// by default the month will apear on screen!
+
+set_S2_Choices(month,'none','m');
+
+set_S3_Choices(AddOnsPerMo,'m');
+
+let ChoicesS3 = document.querySelectorAll("#inputs-S3 .choice");
+let ChoicesS2 = document.querySelectorAll("#inputs-S2 .choice");
 
 
-    // // by default the month will apear on screen!
-    
-    // set_S2_Choices(month,'none','m');
-
-    // set_S3_Choices(AddOnsPerMo,'m');
+S2_inside_changes(ChoicesS2);
+S3_inside_changes(ChoicesS3,S3_Plan_array);
 
 
-    // // S2 / S3 choices setup (html/css)
+// // S2 / S3 choices setup (html/css)
 
-    checkbox_S2.addEventListener("change", function() {
-        SetUp_Page();
-    });
-    
-
-    
-function SetUp_Page(){
-        set_S2_Choices(S2_Plan_array,S3_Plan_array,d);
-        set_S3_Choices(S3_Plan_array,d);
+checkbox_S2.addEventListener("change", function() {
     if (checkbox_S2.checked) {
-        [S2_Plan_array,S3_Plan_array,state,d] = [year,AddOnsPerYo,'block','y']
-        set_S2_Choices(S2_Plan_array,S3_Plan_array,d);
-        set_S3_Choices(S3_Plan_array,d);
+        [S2_Plan_array,S3_Plan_array,state,d] = [year,AddOnsPerYo,'block','Yearly']
+        
         // Style checkbox S2
         checkbox_S2.previousElementSibling.style.color = "var(--CoolGray)";
         checkbox_S2.nextElementSibling.style.color =  "var(--MarineBlue)";
     } else {
-        [S2_Plan_array,S3_Plan_array,state,d] = [month,AddOnsPerMo,'none','m']
-        set_S2_Choices(S2_Plan_array,S3_Plan_array,d);
-        set_S3_Choices(S3_Plan_array,d);
+        [S2_Plan_array,S3_Plan_array,state,d] = [month,AddOnsPerMo,'none','Monthly']
+
         // Style checkbox S2
         checkbox_S2.previousElementSibling.style.color = "var(--MarineBlue)";
         checkbox_S2.nextElementSibling.style.color =  "var(--CoolGray)";
     }
+
+    set_S2_Choices(S2_Plan_array,state,d.charAt(0).toLocaleLowerCase());
+    set_S3_Choices(S3_Plan_array,d.charAt(0).toLocaleLowerCase());
+
+    // setUp user
+    User.plane.Duration = d;
+
     // after Doms
-    
 
     let ChoicesS3 = document.querySelectorAll("#inputs-S3 .choice");
     let ChoicesS2 = document.querySelectorAll("#inputs-S2 .choice");
 
-    // ChoicesS2[0].classList.add('active'); //arcade plan is active by default
-
     S2_inside_changes(ChoicesS2);
+    S3_inside_changes(ChoicesS3,S3_Plan_array);
+    console.log(User.servises);
+});
 
-    S3_inside_changes(ChoicesS3);
-}
+    
 
-
-
-
-
-
-
-
-
+    
+// function SetUp_Page(){
+    
+// }
 
 
 // change/Next/back Swipe 
@@ -179,15 +194,11 @@ function Realsteps(){
             break;
         case steps.length - 2:
             NextBtn.textContent = "Confirm";
+            OutSHow(User);
             break;
         case 0:
             BackBtn.style.visibility = "hidden";
             break;
-        // case 1:
-        //     SetUp_Page();
-        //     SetUp_Page();
-        //     break;
-    
         default:
             BackBtn.style.visibility = "visible";
             NextBtn.textContent = "Next Step";
@@ -222,25 +233,27 @@ function Realsteps(){
 
 function checkInfoForm(){
     FormCheck = 0;
-        IntInfo.forEach((info) =>{
-            
-            if(info.value == ''){
-                info.previousElementSibling.lastElementChild.style.visibility = "visible";
-                info.style.borderColor = "var(--StrawberryRed)";
-                FormCheck--;
-            }else{
-                info.previousElementSibling.lastElementChild.style.visibility = "hidden";
-                info.style.borderColor = "var(--LightGray)";
-                FormCheck++;
-            }
-        });
+    for (let i = 0; i < IntInfo.length; i++) {
+        const info = IntInfo[i];
+        User[Object.keys(User)[i]] = info.value;
+        
+        if(info.value == ''){
+            info.previousElementSibling.lastElementChild.style.visibility = "visible";
+            info.style.borderColor = "var(--StrawberryRed)";
+            FormCheck--;
+        }else{
+            info.previousElementSibling.lastElementChild.style.visibility = "hidden";
+            info.style.borderColor = "var(--LightGray)";
+            FormCheck++;
+        }
+    };
     return FormCheck;
 }
 
 // check the form end
 
 function  set_S2_Choices(arr,vbility,d) {
-    Input_S2.innerHTML ='';
+    Input_S2.innerHTML = ' ';
     for (let i = 0; i < arr.length; i++) {
         const choice = arr[i];
         Input_S2.innerHTML += `<span class="choice">
@@ -249,7 +262,7 @@ function  set_S2_Choices(arr,vbility,d) {
                                     <h3>${choice.name}</h3>
                                     <h4>$${choice.price}/${d}o</h4>
                                     <h4 style="color: var(--MarineBlue); padding-top: 5px;
-                                    display: ${vbility}';">2 Months free</h4>
+                                    display: ${vbility};">2 Months free</h4>
                                     </div>
                                 </span>`;
     }
@@ -284,6 +297,10 @@ function S2_inside_changes(arr) {
         window.addEventListener("change", function() {
             plan.addEventListener("click", ()=>{
                 plan.classList.add('active');
+
+                User.plane.name = plan.lastElementChild.firstElementChild.textContent;
+                User.plane.price = parseInt(plan.lastElementChild.firstElementChild.nextElementSibling.textContent.match(/\d+/)[0]);
+
                 for (let j = 0; j < 3; j++) {
                     if(j != i){
                         arr[j].classList.remove('active');               
@@ -296,15 +313,82 @@ function S2_inside_changes(arr) {
 
 // S3 inside changes 
 
-function S3_inside_changes(arr) {
+function S3_inside_changes(arr,array) {
     for (let i = 0; i < arr.length; i++) {
         const choice = arr[i];
-        if (choice.firstElementChild.firstElementChild.checked) {
-            choice.classList.add('active');
-        } else {
-            choice.classList.remove('active');
-        }
+        choice.firstElementChild.firstElementChild.addEventListener("change",() => {
+
+            if (choice.firstElementChild.firstElementChild.checked) {
+                choice.classList.add('active');
+                for (let i = 0; i < array.length; i++) {
+                    const service = array[i];
+                    if(choice.firstElementChild.lastElementChild.firstElementChild.textContent == service.name){
+                        User.servises[`Servise${i}`] = service;
+                    }
+                }
+            } else {
+                choice.classList.remove('active');
+                for (let i = 0; i < array.length; i++) {
+                    const service = array[i];
+                    if(choice.firstElementChild.lastElementChild.firstElementChild.textContent == service.name){
+                        delete User.servises[`Servise${i}`];
+                    }
+                }
+            }
+        });
+        
     }
     
 }
 
+
+// Show the objects 
+
+///output 
+let planeOut = document.querySelector(".plane-sum"); 
+let OnsOut = document.querySelector(".ons-sum"); 
+let total = document.querySelector(".total"); 
+
+let changeBtn = document.querySelector(".plane-sum").firstElementChild.lastElementChild;
+
+changeBtn.addEventListener('click',() =>{
+    counter = 1;
+    Realsteps();
+});
+
+
+// Up
+function OutSHow(user) {
+    let [totalprice,ServicePrice] = [0,0];
+    //up
+
+    planeOut.firstElementChild.firstElementChild.innerHTML =`<h4>${user.plane.name}(${user.plane.Duration})</h4>`;
+
+    planeOut.lastElementChild.innerHTML = `<h5>${user.plane.price}/${user.plane.Duration.charAt(0).toLocaleLowerCase()}o</h5>` ;
+
+    // Middle
+    let keys = Object.keys(user.servises);
+    console.log(keys);
+    OnsOut.innerHTML = ' ';
+    keys.forEach((key) => {
+        OnsOut.innerHTML +=`<ul>
+                                <h5>${user.servises[key].name}</h5>
+                                <h5>+$${user.servises[key].price}/${user.plane.Duration.charAt(0).toLocaleLowerCase()}o</h5>
+                            </ul>`;
+        ServicePrice += user.servises[key].price;
+    }); 
+    
+    
+
+
+    // Bottom
+
+    totalprice = ServicePrice +  user.plane.price;
+
+    total.innerHTML = `<h5>Total (per ${user.plane.Duration.replace('ly','')})</h5>
+                        <h4>${totalprice}/${user.plane.Duration.charAt(0).toLocaleLowerCase()}o</h4>`;
+}
+
+
+
+ 

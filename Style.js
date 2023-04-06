@@ -3,7 +3,7 @@
 
 
 // logic 
-let changeBtn = document.querySelector(".plane-sum").firstElementChild.lastElementChild;
+
 let ChoicesS3 = document.querySelectorAll("#IntOns");
 
 let planDuration,planeType,planPrice1,planPrice2;
